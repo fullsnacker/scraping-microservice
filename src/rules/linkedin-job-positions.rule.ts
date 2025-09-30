@@ -22,7 +22,17 @@ export class LinkedInJobPositionsRule implements ScrapingRule {
         .find('.job-search-card__location')
         .text()
         .trim();
-      const date = $element.find('.job-search-card__listdate').text().trim();
+      const date = $element.find('time').attr('datetime') || '';
+
+      const formattedDate = date
+        ? new Date(date).toLocaleDateString('es-AR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          })
+        : '';
+
+      // Get job link
 
       const link = $element.find('.base-card__full-link').attr('href') || '';
 
@@ -31,7 +41,7 @@ export class LinkedInJobPositionsRule implements ScrapingRule {
           title,
           company,
           location,
-          date,
+          formattedDate,
           link: link.split('?')[0], // Clean URL without tracking params
           position: index + 1,
         });
