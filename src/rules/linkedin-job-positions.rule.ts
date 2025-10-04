@@ -26,6 +26,7 @@ export class LinkedInJobPositionsRule implements ScrapingRule {
 
       const formattedDate = date
         ? new Date(date).toLocaleDateString('es-AR', {
+            timeZone: 'utc',
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
@@ -42,6 +43,7 @@ export class LinkedInJobPositionsRule implements ScrapingRule {
           company,
           location,
           formattedDate,
+          date,
           link: link.split('?')[0], // Clean URL without tracking params
           position: index + 1,
         });
